@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import csv
 import json
+import math
+import random
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -25,6 +27,10 @@ from pcvrptw_core import (
 class PipelineConfig:
     distance_mode: str = "floor"
     stop_threshold: float = 0.5
+    selection_strategy: str = "greedy"
+    top_k: int = 10
+    temperature: float = 1.0
+    random_seed: int = 42
     max_routes: Optional[int] = None
     max_steps_per_route: int = 10000
 
@@ -38,6 +44,11 @@ class Decision:
     chosen_vrp_node_id: int
     chosen_customer_id: int
     chosen_score: float
+    best_score: float
+    selected_rank: int
+    selected_probability: float
+    selection_strategy: str
+    top_k_used: int
     feasible_candidate_count: int
     travel_distance: float
     arrival_time: float
@@ -58,6 +69,61 @@ class XGBoostRoutingPipeline:
         self.instance = instance
         self.scorer = scorer
         self.config = config
+        self._validate_selection_config()
+        self.rng = random.Random(self.config.random_seed)
+
+    def _validate_selection_config(self) -> None:
+        allowed = {"greedy", "topk_uniform", "topk_softmax"}
+        if self.config.selection_strategy not in allowed:
+            raise ValueError(
+                f"Unknown selection_strategy={self.config.selection_strategy!r}. "
+                f"Choose one of {sorted(allowed)}."
+            )
+        if self.config.top_k < 1:
+            raise ValueError("top_k must be at least 1.")
+        if self.config.temperature <= 0:
+            raise ValueError("temperature must be greater than 0.")
+
+    def _select_candidate(
+        self, ranked: List[Tuple[int, float]]
+    ) -> Tuple[int, float, int, float, int]:
+        """Select one candidate from an already score-sorted feasible list.
+
+        Returns:
+            chosen_node, chosen_score, selected_rank, selected_probability, top_k_used
+        """
+        if not ranked:
+            raise ValueError("Cannot select from an empty candidate list.")
+
+        if self.config.selection_strategy == "greedy":
+            node, score = ranked[0]
+            return int(node), float(score), 1, 1.0, 1
+
+        k = min(self.config.top_k, len(ranked))
+        pool = ranked[:k]
+
+        if self.config.selection_strategy == "topk_uniform":
+            probabilities = [1.0 / k] * k
+        else:
+            # XGBRanker outputs ranking scores, not probabilities. Convert the
+            # top-k scores to a stable softmax distribution before sampling.
+            scaled_scores = [float(score) / self.config.temperature for _, score in pool]
+            max_scaled = max(scaled_scores)
+            weights = [math.exp(score - max_scaled) for score in scaled_scores]
+            total_weight = sum(weights)
+            probabilities = [weight / total_weight for weight in weights]
+
+        selected_index = self.rng.choices(
+            range(k), weights=probabilities, k=1
+        )[0]
+        node, score = pool[selected_index]
+        return (
+            int(node),
+            float(score),
+            selected_index + 1,
+            float(probabilities[selected_index]),
+            k,
+        )
 
     def solve(self) -> Dict[str, object]:
         start_clock = time.perf_counter()
@@ -119,17 +185,27 @@ class XGBoostRoutingPipeline:
                     ),
                     reverse=True,
                 )
-                chosen_node, chosen_score = ranked[0]
-                chosen_score = float(chosen_score)
+                # The stop decision must use the BEST available score, not a
+                # randomly sampled top-k score. Otherwise a low-ranked sample could
+                # incorrectly terminate a route even when a strong candidate exists.
+                best_score = float(ranked[0][1])
 
                 # Training data contains all-negative route-end/global-stop states.
                 # A low maximum score therefore means "do not choose another customer".
-                if chosen_score < self.config.stop_threshold:
+                if best_score < self.config.stop_threshold:
                     if route:
                         route_stop_reason = "score_below_threshold_return_to_depot"
                     else:
                         route_stop_reason = "score_below_threshold_global_stop"
                     break
+
+                (
+                    chosen_node,
+                    chosen_score,
+                    selected_rank,
+                    selected_probability,
+                    top_k_used,
+                ) = self._select_candidate(ranked)
 
                 before_node = state.current_node
                 action = execute_action(
@@ -158,6 +234,11 @@ class XGBoostRoutingPipeline:
                             self.instance, chosen_node
                         ),
                         chosen_score=chosen_score,
+                        best_score=best_score,
+                        selected_rank=selected_rank,
+                        selected_probability=selected_probability,
+                        selection_strategy=self.config.selection_strategy,
+                        top_k_used=top_k_used,
                         feasible_candidate_count=len(candidate_nodes),
                         travel_distance=action["travel_distance"],
                         arrival_time=action["arrival_time"],
@@ -321,6 +402,10 @@ def load_config(
     *,
     stop_threshold: Optional[float],
     distance_mode: Optional[str],
+    selection_strategy: Optional[str],
+    top_k: Optional[int],
+    temperature: Optional[float],
+    random_seed: Optional[int],
     max_routes: Optional[int],
 ) -> PipelineConfig:
     values: Dict[str, object] = {}
@@ -331,6 +416,10 @@ def load_config(
     config = PipelineConfig(
         distance_mode=str(values.get("distance_mode", "floor")),
         stop_threshold=float(values.get("stop_threshold", 0.5)),
+        selection_strategy=str(values.get("selection_strategy", "greedy")),
+        top_k=int(values.get("top_k", 10)),
+        temperature=float(values.get("temperature", 1.0)),
+        random_seed=int(values.get("random_seed", 42)),
         max_routes=(
             None
             if values.get("max_routes") is None
@@ -343,6 +432,14 @@ def load_config(
         config.stop_threshold = stop_threshold
     if distance_mode is not None:
         config.distance_mode = distance_mode
+    if selection_strategy is not None:
+        config.selection_strategy = selection_strategy
+    if top_k is not None:
+        config.top_k = top_k
+    if temperature is not None:
+        config.temperature = temperature
+    if random_seed is not None:
+        config.random_seed = random_seed
     if max_routes is not None:
         config.max_routes = max_routes
 

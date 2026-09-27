@@ -1,6 +1,10 @@
 {
   "distance_mode": "floor",
   "stop_threshold": 0.5,
+  "selection_strategy": "topk_softmax",
+  "top_k": 10,
+  "temperature": 1.0,
+  "random_seed": 42,
   "max_routes": null,
   "max_steps_per_route": 10000
 }

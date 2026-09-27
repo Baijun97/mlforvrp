@@ -47,6 +47,34 @@ def main() -> None:
         help="Must match training-data generation. Uploaded archive uses floor.",
     )
     parser.add_argument(
+        "--selection-strategy",
+        choices=["greedy", "topk_uniform", "topk_softmax"],
+        default=None,
+        help=(
+            "Candidate selection after feasibility filtering and XGBoost scoring. "
+            "greedy keeps the current Top-1 behaviour; topk_uniform samples uniformly "
+            "from Top-k; topk_softmax samples from a softmax over Top-k scores."
+        ),
+    )
+    parser.add_argument(
+        "--top-k",
+        type=int,
+        default=None,
+        help="Top-k pool size used by topk_uniform/topk_softmax.",
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=None,
+        help="Softmax temperature for topk_softmax; lower is more greedy.",
+    )
+    parser.add_argument(
+        "--random-seed",
+        type=int,
+        default=None,
+        help="Random seed for reproducible top-k sampling.",
+    )
+    parser.add_argument(
         "--max-routes",
         type=int,
         default=None,
@@ -84,6 +112,10 @@ def main() -> None:
         args.config,
         stop_threshold=args.stop_threshold,
         distance_mode=args.distance_mode,
+        selection_strategy=args.selection_strategy,
+        top_k=args.top_k,
+        temperature=args.temperature,
+        random_seed=args.random_seed,
         max_routes=args.max_routes,
     )
 

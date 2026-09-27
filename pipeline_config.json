@@ -1,0 +1,6 @@
+{
+  "distance_mode": "floor",
+  "stop_threshold": 0.5,
+  "max_routes": null,
+  "max_steps_per_route": 10000
+}

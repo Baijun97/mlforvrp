@@ -1,0 +1,48 @@
+[1/12] C102: feasible=True, routes=12/10, gap=37.894%, inference=0.147s
+[2/12] C1_2_8: feasible=True, routes=24/20, gap=26.952%, inference=0.315s
+[3/12] C202: feasible=True, routes=5/3, gap=20.794%, inference=0.138s
+[4/12] C2_2_3: feasible=True, routes=16/7, gap=80.362%, inference=0.309s
+[5/12] R110: feasible=True, routes=16/12, gap=37.472%, inference=0.147s
+[6/12] R1_2_8: feasible=True, routes=22/18, gap=43.228%, inference=0.314s
+[7/12] R202: feasible=True, routes=11/8, gap=46.076%, inference=0.143s
+[8/12] R2_2_10: feasible=True, routes=15/8, gap=52.357%, inference=0.307s
+[9/12] RC108: feasible=True, routes=16/11, gap=47.550%, inference=0.147s
+[10/12] RC1_2_2: feasible=True, routes=25/19, gap=40.601%, inference=0.318s
+[11/12] RC201: feasible=True, routes=13/9, gap=31.606%, inference=0.145s
+[12/12] RC2_2_9: feasible=True, routes=11/6, gap=50.192%, inference=0.303s
+{
+  "model": "/Users/baijungu/Desktop/MLforVRP/models/xgb_ranker_200/xgboost_ranker.json",
+  "instances_dir": "/Users/baijungu/Desktop/MLforVRP/Instances/VRPTW",
+  "split": "test",
+  "max_customers": 200,
+  "top_k": 25,
+  "candidate_mode": "topk",
+  "rounding": "dimacs",
+  "instances_tested": 12,
+  "feasible_instances": 12,
+  "feasible_rate": 1.0,
+  "feasible_rate_percent": 100.0,
+  "gap_percent_feasible_only": {
+    "count": 12,
+    "mean": 42.92367301253088,
+    "median": 41.91427524568543,
+    "best": 20.794432184688507,
+    "worst": 80.36180106612225
+  },
+  "routes_feasible_only": {
+    "mean_generated": 15.5,
+    "mean_reference": 10.916666666666666,
+    "mean_difference": 4.583333333333333
+  },
+  "inference_runtime_seconds_per_instance": {
+    "mean": 0.22775076393736526,
+    "median": 0.22506195853929967,
+    "p95": 0.3165672209928744,
+    "total": 2.733009167248383
+  },
+  "failures": {},
+  "comparison_note": "Training time is intentionally excluded. Compare feasible rate, gap, route count, and per-instance inference runtime with OR-Tools on the same instance IDs and distance convention."
+}
+
+Selection configuration: {'selection_strategy': 'topk_softmax', 'selection_k': 3, 'temperature': 1.0, 'random_seed': 2}
+Decisions selecting rank > 1: 491

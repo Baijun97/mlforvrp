@@ -1,0 +1,14 @@
+Split: test
+Maximum customers: 200
+Candidate preselection: topk, K=25
+Distance rounding: dimacs
+Baseline: greedy
+Sampling: topk_softmax
+Selection K: 3
+Temperature: 1.0
+Seeds: 0 through 9
+Report: single-run mean and best-of-10
+Best-of-10 selection: minimum generated distance among feasible solutions;
+ties resolved by fewer routes, then smaller seed.
+No route repair.
+Parameters selected using validation results, before test evaluation.

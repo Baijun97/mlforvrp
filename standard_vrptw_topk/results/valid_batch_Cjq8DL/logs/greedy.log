@@ -1,0 +1,48 @@
+[1/12] C101: feasible=True, routes=11/10, gap=7.627%, inference=0.144s
+[2/12] C1_2_3: feasible=True, routes=23/20, gap=32.577%, inference=0.317s
+[3/12] C201: feasible=True, routes=3/3, gap=-0.000%, inference=0.133s
+[4/12] C2_2_4: feasible=True, routes=16/7, gap=61.593%, inference=0.307s
+[5/12] R107: feasible=True, routes=15/11, gap=26.451%, inference=0.146s
+[6/12] R1_2_1: feasible=True, routes=34/23, gap=33.768%, inference=0.352s
+[7/12] R208: feasible=True, routes=7/4, gap=33.110%, inference=0.139s
+[8/12] R2_2_3: feasible=True, routes=16/9, gap=48.906%, inference=0.308s
+[9/12] RC107: feasible=True, routes=17/12, gap=40.661%, inference=0.147s
+[10/12] RC1_2_4: feasible=True, routes=25/18, gap=47.364%, inference=0.317s
+[11/12] RC208: feasible=True, routes=6/4, gap=42.160%, inference=0.137s
+[12/12] RC2_2_1: feasible=True, routes=17/10, gap=35.011%, inference=0.308s
+{
+  "model": "/Users/baijungu/Desktop/MLforVRP/models/xgb_ranker_200/xgboost_ranker.json",
+  "instances_dir": "/Users/baijungu/Desktop/MLforVRP/Instances/VRPTW",
+  "split": "valid",
+  "max_customers": 200,
+  "top_k": 25,
+  "candidate_mode": "topk",
+  "rounding": "dimacs",
+  "instances_tested": 12,
+  "feasible_instances": 12,
+  "feasible_rate": 1.0,
+  "feasible_rate_percent": 100.0,
+  "gap_percent_feasible_only": {
+    "count": 12,
+    "mean": 34.10230537142722,
+    "median": 34.38932556968824,
+    "best": -1.9298393773827197e-14,
+    "worst": 61.59292035398231
+  },
+  "routes_feasible_only": {
+    "mean_generated": 15.833333333333334,
+    "mean_reference": 10.916666666666666,
+    "mean_difference": 4.916666666666667
+  },
+  "inference_runtime_seconds_per_instance": {
+    "mean": 0.22954490290915905,
+    "median": 0.22707645848277025,
+    "p95": 0.3327661001560045,
+    "total": 2.7545388349099085
+  },
+  "failures": {},
+  "comparison_note": "Training time is intentionally excluded. Compare feasible rate, gap, route count, and per-instance inference runtime with OR-Tools on the same instance IDs and distance convention."
+}
+
+Selection configuration: {'selection_strategy': 'greedy', 'selection_k': 1, 'temperature': 1.0, 'random_seed': 0}
+Decisions selecting rank > 1: 0

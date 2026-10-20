@@ -1,0 +1,33 @@
+{
+  "model": "/Users/baijungu/Desktop/MLforVRP/models/xgb_ranker_200/xgboost_ranker.json",
+  "instances_dir": "/Users/baijungu/Desktop/MLforVRP/Instances/VRPTW",
+  "split": "valid",
+  "max_customers": 200,
+  "top_k": 25,
+  "candidate_mode": "topk",
+  "rounding": "dimacs",
+  "instances_tested": 12,
+  "feasible_instances": 12,
+  "feasible_rate": 1.0,
+  "feasible_rate_percent": 100.0,
+  "gap_percent_feasible_only": {
+    "count": 12,
+    "mean": 57.60464664852362,
+    "median": 56.65067223219815,
+    "best": 16.088480599540677,
+    "worst": 98.36578171091443
+  },
+  "routes_feasible_only": {
+    "mean_generated": 17.0,
+    "mean_reference": 10.916666666666666,
+    "mean_difference": 6.083333333333333
+  },
+  "inference_runtime_seconds_per_instance": {
+    "mean": 0.2351750173305239,
+    "median": 0.2333359170006588,
+    "p95": 0.33251906028890515,
+    "total": 2.8221002079662867
+  },
+  "failures": {},
+  "comparison_note": "Training time is intentionally excluded. Compare feasible rate, gap, route count, and per-instance inference runtime with OR-Tools on the same instance IDs and distance convention."
+}

@@ -1,0 +1,6 @@
+{
+  "selection_strategy": "greedy",
+  "selection_k": 1,
+  "temperature": 1.0,
+  "random_seed": 0
+}

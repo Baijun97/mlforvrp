@@ -1,0 +1,10 @@
+Metric,XGB route constructor
+Instances tested,12
+Feasible rate,100.000%
+Mean gap (feasible only),40.243%
+Median gap (feasible only),41.070%
+Best gap (feasible only),0.000%
+Worst gap (feasible only),65.180%
+Mean generated routes,16.167
+Mean reference routes,10.917
+Mean inference runtime,0.232037 s

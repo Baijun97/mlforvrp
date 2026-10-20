@@ -1,0 +1,48 @@
+[1/12] C102: feasible=True, routes=10/10, gap=0.000%, inference=0.148s
+[2/12] C1_2_8: feasible=True, routes=21/20, gap=6.826%, inference=0.310s
+[3/12] C202: feasible=True, routes=3/3, gap=-0.000%, inference=0.134s
+[4/12] C2_2_3: feasible=True, routes=20/7, gap=71.487%, inference=0.309s
+[5/12] R110: feasible=True, routes=14/12, gap=24.382%, inference=0.145s
+[6/12] R1_2_8: feasible=True, routes=25/18, gap=43.983%, inference=0.318s
+[7/12] R202: feasible=True, routes=10/8, gap=30.828%, inference=0.141s
+[8/12] R2_2_10: feasible=True, routes=16/8, gap=40.857%, inference=0.305s
+[9/12] RC108: feasible=True, routes=15/11, gap=31.978%, inference=0.144s
+[10/12] RC1_2_2: feasible=True, routes=26/19, gap=39.189%, inference=0.315s
+[11/12] RC201: feasible=True, routes=13/9, gap=25.147%, inference=0.145s
+[12/12] RC2_2_9: feasible=True, routes=7/6, gap=24.839%, inference=0.294s
+{
+  "model": "/Users/baijungu/Desktop/MLforVRP/models/xgb_ranker_200/xgboost_ranker.json",
+  "instances_dir": "/Users/baijungu/Desktop/MLforVRP/Instances/VRPTW",
+  "split": "test",
+  "max_customers": 200,
+  "top_k": 25,
+  "candidate_mode": "topk",
+  "rounding": "dimacs",
+  "instances_tested": 12,
+  "feasible_instances": 12,
+  "feasible_rate": 1.0,
+  "feasible_rate_percent": 100.0,
+  "gap_percent_feasible_only": {
+    "count": 12,
+    "mean": 28.292885392814753,
+    "median": 27.987060886490276,
+    "best": -1.9298393773827197e-14,
+    "worst": 71.4869003062266
+  },
+  "routes_feasible_only": {
+    "mean_generated": 15.0,
+    "mean_reference": 10.916666666666666,
+    "mean_difference": 4.083333333333333
+  },
+  "inference_runtime_seconds_per_instance": {
+    "mean": 0.22565344784137173,
+    "median": 0.22059933299897239,
+    "p95": 0.31626295640307944,
+    "total": 2.7078413740964606
+  },
+  "failures": {},
+  "comparison_note": "Training time is intentionally excluded. Compare feasible rate, gap, route count, and per-instance inference runtime with OR-Tools on the same instance IDs and distance convention."
+}
+
+Selection configuration: {'selection_strategy': 'greedy', 'selection_k': 1, 'temperature': 1.0, 'random_seed': 0}
+Decisions selecting rank > 1: 0

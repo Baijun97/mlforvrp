@@ -1,0 +1,9 @@
+{
+  "model_filename": "xgboost_ranker.json",
+  "model_sha256": "01951bd42652348f25b5b7a0ada34b3191f9e2baeafbeaf6a8b777a3124ab97e",
+  "model_size_bytes": 13159227,
+  "feature_count": 41,
+  "objective": "rank:pairwise",
+  "model_bundled": false,
+  "note": "Input metadata recorded after the experiment; assumes these input files have not changed since the runs."
+}

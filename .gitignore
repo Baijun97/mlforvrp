@@ -1,0 +1,12 @@
+
+
+# Local Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Keep only completed formal experiment batches
+/standard_vrptw_topk/results/*
+!/standard_vrptw_topk/results/valid_batch_Cjq8DL/
+!/standard_vrptw_topk/results/test_batch_FioHQR/

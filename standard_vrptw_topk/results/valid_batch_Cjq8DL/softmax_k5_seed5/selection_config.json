@@ -1,0 +1,6 @@
+{
+  "selection_strategy": "topk_softmax",
+  "selection_k": 5,
+  "temperature": 1.0,
+  "random_seed": 5
+}

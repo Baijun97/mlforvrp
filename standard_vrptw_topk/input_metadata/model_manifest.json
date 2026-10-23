@@ -4,6 +4,7 @@
   "model_size_bytes": 13159227,
   "feature_count": 41,
   "objective": "rank:pairwise",
-  "model_bundled": false,
-  "note": "Input metadata recorded after the experiment; assumes these input files have not changed since the runs."
+  "model_bundled": true,
+  "note": "Input metadata recorded after the experiment; assumes these input files have not changed since the runs.",
+  "repository_model_path": "standard_vrptw_topk/models/xgboost_ranker.json"
 }

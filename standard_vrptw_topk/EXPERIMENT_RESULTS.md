@@ -122,6 +122,8 @@ Key files within the batches:
 - Saved copies of the evaluation and data-generation scripts
 
 The prepared feature list, instance split manifest and model SHA-256 are
-recorded in input_metadata/. The trained model and benchmark instance files
-are external inputs and are not bundled. Reproduction requires matching
-versions of these inputs.
+recorded in input_metadata/. The trained model is bundled in models/.
+The 24 validation and test instances with reference solutions are bundled
+in demo_data/instances/. See README.md for inference instructions.
+The full training dataset and original training pipeline are not bundled
+in this experiment directory.

@@ -269,3 +269,7 @@ to end the current route. If this happens before a fresh route visits any
 customer, the pipeline stops opening more vehicles.
 
 Tune the threshold on validation data; do not assume 0.5 is optimal.
+
+## Standard VRPTW trained-model demo
+
+A separate 41-feature standard VRPTW implementation, trained XGBRanker, benchmark subset and experiment results are available in [standard_vrptw_topk](standard_vrptw_topk/README.md). Use that directory's instructions and model together; the root implementation uses a different 32-feature PCVRPTW specification.

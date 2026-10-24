@@ -1,0 +1,26 @@
+{
+  "source_data_dir": "/Users/baijungu/Desktop/MLforVRP/processed/all_standard_vrptw_v2",
+  "output_dir": "/Users/baijungu/Desktop/MLforVRP/processed/vrptw_ranker",
+  "seed": 42,
+  "ratios": {
+    "train": 0.8,
+    "valid": 0.1,
+    "test": 0.1
+  },
+  "compression": "zstd",
+  "instances": {
+    "train": 284,
+    "valid": 36,
+    "test": 36
+  },
+  "candidate_rows": {
+    "train": 3850499,
+    "valid": 482042,
+    "test": 482518
+  },
+  "positive_rows": {
+    "train": 157552,
+    "valid": 19729,
+    "test": 19749
+  }
+}
